@@ -1,4 +1,4 @@
-const update = document.querySelector('#update-button')
+const update = document.getElementById('update-button')
 
 update.addEventListener('click', _ => {
     fetch('/quotes', {
@@ -9,6 +9,38 @@ update.addEventListener('click', _ => {
             quote: 'I find your lack of faith disturbing.'
         })
     })
+    .then(res => {
+        if (res.ok) return res.json()
+      })
+      .then(response => {
+        window.location.reload(true)
+      })
+})
+
+const deleteButton = document.getElementById('delete-button')
+const messageDiv  = document.getElementById('message')
+
+deleteButton.addEventListener('click', _ => {
+    fetch('/quotes', {
+        method: 'delete',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: 'Darth Vadar'
+        })
+    })
+    .then(res => {
+        if (res.ok) return res.json()
+      })
+      .then(data => {
+        window.location.reload()
+      })
+      .then(response => {
+        if (response === 'No quote to delete') {
+          messageDiv.textContent = 'No Darth Vadar quote to delete'
+        } else {
+          window.location.reload(true)
+        }
+      })
 })
 
 
