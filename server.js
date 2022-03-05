@@ -4,25 +4,11 @@ const res = require('express/lib/response');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
 
-// app.use(bodyParser.urlencoded({ extended: true }));
 
-
-// app.get("/", function (req, res) {
-//     res.sendFile(__dirname + '/index.html');
-// });
-
-// app.post('/quotes', (req, res) => {
-//     quotesCollection.insertOne(req.body)
-//       .then(result => {
-//         console.log(result)
-//       })
-//       .catch(error => console.error(error))
-//   })
-
-MongoClient.connect('mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useUnifiedTopology: true })
+MongoClient.connect("mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true })
     .then(function (client) {
     // if (err) return console.error(err)
-    console.log('Connected to Database');
+    // console.log('Connected to Database');
 
     const db = client.db('To-Do-List');
     const quotesCollection = db.collection('quotes')
@@ -37,10 +23,10 @@ MongoClient.connect('mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/
         const cursor = db.collection('quotes').find().toArray()
             .then(results => {
                 res.render('index.ejs', {quotes: results})
-                console.log(results);
+                // console.log(results);
             })
             .catch(error => console.error(error))
-        console.log(cursor);
+        // console.log(cursor);
         //res.sendFile(__dirname + '/index.html');
     });
 
@@ -52,29 +38,29 @@ MongoClient.connect('mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/
           .catch(error => console.error(error))
       })
 
-    app.put('/quotes', (req, res) => {
+      app.put('/quotes', (req, res) => {
         quotesCollection.findOneAndUpdate(
-            { name: 'sam' },
-            {
-              $set: {
-                name: req.body.name,
-                quote: req.body.quote
-              }
-            },
-            {
-              upsert: true
+          { quote: req.body.oldQuote },
+          {
+            $set: {
+              
+              quote: req.body.newQuote,
             }
-          )
-          .then(result => {
-            console.log('Success')
-           })
-          .catch(error => console.error(error))
-        console.log(req.body)
-    })
+          },
+          {
+            upsert: true
+          }
+        )
+        .then(result => {
+          res.json('Success')
+        })
+       .catch(error => console.error(error))
+      
+          }) 
 
     app.delete('/quotes', (req, res) => {
         quotesCollection.deleteOne(
-            {name: req.body.name}
+            {quote: req.body.quote}
         )
         .then(result => {
             if (result.deletedCount === 0) {
@@ -93,7 +79,3 @@ MongoClient.connect('mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/
 
 
     
-
-// app.put('/quotes', (req, res) => {
-//     console.log(req.body)
-//   })

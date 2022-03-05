@@ -1,12 +1,15 @@
 const update = document.getElementById('update-button')
+const oldQuote = document.getElementById('oldQuote')
+const newQuote = document.getElementById('newQuote')
 
 update.addEventListener('click', _ => {
     fetch('/quotes', {
         method: 'put',
         headers:{'Content-Type': 'application/json'},
         body: JSON.stringify({
-            name: 'Darth Vadar',
-            quote: 'I find your lack of faith disturbing.'
+          oldQuote: oldQuote.value,  
+          newQuote: newQuote.value
+            
         })
     })
     .then(res => {
@@ -18,6 +21,7 @@ update.addEventListener('click', _ => {
 })
 
 const deleteButton = document.getElementById('delete-button')
+const deleteQuote = document.getElementById('deleteQuote')
 const messageDiv  = document.getElementById('message')
 
 deleteButton.addEventListener('click', _ => {
@@ -25,7 +29,7 @@ deleteButton.addEventListener('click', _ => {
         method: 'delete',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            name: 'Darth Vadar'
+            quote: deleteQuote.value
         })
     })
     .then(res => {
