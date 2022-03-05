@@ -5,7 +5,7 @@ const MongoClient = require('mongodb').MongoClient;
 const app = express();
 
 
-MongoClient.connect("mongodb+srv://sameer:primesam1s@cluster0.8dfo7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true })
+MongoClient.connect(MONGO_URI, { useUnifiedTopology: true })
     .then(function (client) {
     // if (err) return console.error(err)
     // console.log('Connected to Database');
